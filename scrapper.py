@@ -2,6 +2,7 @@ from facebook_scraper import get_posts
 from src.database import Database
 
 database = Database()
+init_pages= 100000
 
 groups_to_scrape =[
     {"id": 'groups/marcosdutertefor2022', "candidate": "Marcos-Duterte"},
@@ -9,7 +10,7 @@ groups_to_scrape =[
 ]
 
 for group in groups_to_scrape:
-    for post in get_posts(group['id'], pages=50,options={"comments": True}):
+    for post in get_posts(group['id'], pages=init_pages,options={"comments": True}):
         print("Scrapping Group for {} with Post id {}".format(group['candidate'], post['post_id']))
         database.insert_post(
                 post_id=post['post_id'],
