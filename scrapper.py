@@ -11,7 +11,7 @@ groups_to_scrape =[
 ]
 
 for group in groups_to_scrape:
-    for post in get_posts(group['id'], pages=init_pages,options={"comments": True},credentials={'email' : config['user'] , 'pass' : config['password'] }):
+    for post in get_posts(group['id'], pages=init_pages,options={"comments": True},credentials= (config['user'] , config['password'])):
         print("Scrapping Group for {} with Post id {}".format(group['candidate'], post['post_id']))
         database.insert_post(
                 post_id=post['post_id'],
