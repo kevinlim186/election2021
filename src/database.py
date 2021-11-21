@@ -23,7 +23,7 @@ class Database():
 
     def insert_comment(self, post_id, comment_id, _text, time_stamp, user_id, username):
 
-        if comment_id not in self.comment_ids:
+        if comment_id not in self.comment_ids['comment_id'].values:
             sql = '''
             insert into comments (post_id, comment_id, _text, time_stamp, user_id, username)
             values (%s,%s,%s,%s,%s,%s)
@@ -40,12 +40,14 @@ class Database():
 
     
     def insert_post(self, post_id, _text, time_stamp, likes, comments, shares, user_id, username, group_id, group_candidate):
-        sql = '''
-        insert into posts (post_id, _text, time_stamp, likes, comments, shares, user_id, username,group_id, group_candidate)
-        values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-        '''
-        if post_id not in self.post_ids:
+
+        if post_id not in self.post_ids['post_id'].values:
             try:
+                sql = '''
+                insert into posts (post_id, _text, time_stamp, likes, comments, shares, user_id, username,group_id, group_candidate)
+                values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                '''
+        
                 self.cHandler.execute(sql, (post_id, _text, time_stamp, likes, comments, shares, user_id, username,group_id, group_candidate))
 
                 self.post_ids= self.post_ids.append({'post_id':post_id}, ignore_index=True)
@@ -53,7 +55,16 @@ class Database():
                 pass
         
         else:
-            print('Post is already in the database')
+            sql = '''
+            update posts
+            set likes = %s,
+            comments = %s,
+            shares = %s
+            where post_id = %s
+            '''
+    
+            self.cHandler.execute(sql, ( likes, comments, shares, post_id))
+            print('Updating Post {}'.format(post_id))
 
     def get_comment_ids(self):
         sql = 'select comment_id from comments'
