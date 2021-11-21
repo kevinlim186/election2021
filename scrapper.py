@@ -3,6 +3,8 @@ from src.database import Database
 from src.config import config,cookies
 import http.cookiejar
 import json
+import time
+from random import randrange
 
 
 database = Database()
@@ -67,3 +69,7 @@ for group in groups_to_scrape:
                 user_id=comment['commenter_id'],
                 username=comment['commenter_name']
             )
+        
+        #avoid to many request
+        wait_time = randrange(60)
+        time.sleep(wait_time)
