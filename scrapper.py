@@ -9,8 +9,22 @@ database = Database()
 init_pages= 1000
 
 groups_to_scrape =[
+    {"id": 'BongbongMarcos', "candidate": "Marcos-Duterte"},
     {"id": 'groups/marcosdutertefor2022', "candidate": "Marcos-Duterte"},
-    {"id": '1683989658430119', "candidate": "Isko"}
+    {"id": '777125892895858', "candidate": "Marcos-Duterte"},
+    {"id": '976328462455714', "candidate": "Marcos-Duterte"},
+    
+    
+    {"id": 'VPLeniRobredoPH', "candidate": "Leni-Kiko"},
+    {"id": 'groups/NOBS2016/', "candidate": "Leni-Kiko"},
+    {"id": '945591229575374', "candidate": "Leni-Kiko"},
+    {"id": '2556648484480195', "candidate": "Leni-Kiko"},
+
+    {"id": 'iskomorenodomagoso', "candidate": "Isko-Ong"},
+    {"id": '1683989658430119', "candidate": "Isko-Ong"},
+    {"id": '997990110658082', "candidate": "Isko-Ong"},
+    {"id": '174319694228563', "candidate": "Isko-Ong"},
+    
 ]
 
 ##convert string to cookiejar
