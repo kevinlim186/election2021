@@ -8,16 +8,16 @@ from random import randrange
 
 
 database = Database()
-init_pages= 1000
+init_pages= 20
 
 groups_to_scrape =[
-    {"id": 'BongbongMarcos', "candidate": "Marcos-Duterte"},
-    {"id": 'groups/marcosdutertefor2022', "candidate": "Marcos-Duterte"},
-    {"id": '777125892895858', "candidate": "Marcos-Duterte"},
+#    {"id": 'BongbongMarcos', "candidate": "Marcos-Duterte"},
+#    {"id": 'groups/marcosdutertefor2022', "candidate": "Marcos-Duterte"},
+#    {"id": '777125892895858', "candidate": "Marcos-Duterte"},
     {"id": '976328462455714', "candidate": "Marcos-Duterte"},
     
     
-    {"id": 'VPLeniRobredoPH', "candidate": "Leni-Kiko"},
+#    {"id": 'VPLeniRobredoPH', "candidate": "Leni-Kiko"},
     {"id": 'groups/NOBS2016/', "candidate": "Leni-Kiko"},
     {"id": '945591229575374', "candidate": "Leni-Kiko"},
     {"id": '2556648484480195', "candidate": "Leni-Kiko"},
@@ -46,7 +46,7 @@ for c in cookies:
      cj.set_cookie(cookie)
 
 for group in groups_to_scrape:
-    for post in get_posts(group['id'], pages=init_pages,options={"comments": True},cookies=cj):
+    for post in get_posts(group['id'], pages=init_pages,options={"comments": True}):
         print("Scrapping Group for {} with Post id {}".format(group['candidate'], post['post_id']))
         database.insert_post(
                 post_id=post['post_id'],

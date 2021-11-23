@@ -75,3 +75,17 @@ class Database():
         sql = 'select post_id from posts'
         
         self.post_ids = pd.read_sql_query(sql=sql, con=self.conn)
+
+    def get_texts(self):
+        sql = '''
+            select comments._text, group_candidate
+            from comments
+            inner join posts on comments.post_id = posts.post_id
+            group by comments._text, group_candidate
+            union 
+            select  _text, group_candidate
+            from posts
+            group by  _text, group_candidate
+        '''
+
+        return pd.read_sql_query(sql=sql, con=self.conn)
