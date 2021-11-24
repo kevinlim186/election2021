@@ -89,3 +89,12 @@ class Database():
         '''
 
         return pd.read_sql_query(sql=sql, con=self.conn)
+
+    def get_posts(self):
+        sql = '''
+            select  _text, group_candidate
+            from posts
+            group by  _text, group_candidate
+        '''
+
+        return pd.read_sql_query(sql=sql, con=self.conn)
