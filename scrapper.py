@@ -12,24 +12,24 @@ init_pages= 20
 
 groups_to_scrape =[
 #    {"id": 'BongbongMarcos', "candidate": "Marcos-Duterte"},
-#    {"id": 'groups/marcosdutertefor2022', "candidate": "Marcos-Duterte"},
-#    {"id": '777125892895858', "candidate": "Marcos-Duterte"},
-    # {"id": '976328462455714', "candidate": "Marcos-Duterte"},
+    {"id": 'groups/marcosdutertefor2022', "candidate": "Marcos-Duterte"},
+    {"id": 'groups/777125892895858', "candidate": "Marcos-Duterte"},
+    {"id": 'groups/976328462455714', "candidate": "Marcos-Duterte"},
+    {"id": 'BanatBy', "candidate": "Marcos-Duterte"},
     
-    
-#    {"id": 'VPLeniRobredoPH', "candidate": "Leni-Kiko"},
-    # {"id": 'groups/NOBS2016/', "candidate": "Leni-Kiko"},
-    # {"id": '945591229575374', "candidate": "Leni-Kiko"},
-    # {"id": '2556648484480195', "candidate": "Leni-Kiko"},
+    {"id": 'VPLeniRobredoPH', "candidate": "Leni-Kiko"},
+    {"id": 'groups/NOBS2016/', "candidate": "Leni-Kiko"},
+    {"id": 'groups/945591229575374', "candidate": "Leni-Kiko"},
+    {"id": 'groups/2556648484480195', "candidate": "Leni-Kiko"},
 
-    # {"id": 'iskomorenodomagoso', "candidate": "Isko-Ong"},
-    # {"id": '1683989658430119', "candidate": "Isko-Ong"},
-    # {"id": '997990110658082', "candidate": "Isko-Ong"},
-    # {"id": '174319694228563', "candidate": "Isko-Ong"},
+    {"id": 'iskomorenodomagoso', "candidate": "Isko-Ong"},
+    {"id": 'groups/1683989658430119', "candidate": "Isko-Ong"},
+    {"id": 'groups/997990110658082', "candidate": "Isko-Ong"},
+    {"id": 'groups/174319694228563', "candidate": "Isko-Ong"},
     
     {"id": 'philstarnews', "candidate": "phil-star"},
     {"id": 'manilabulletin', "candidate": "manila-bullletin"},
-
+    {"id": 'rappler', "candidate": "rapplerdotcom"},
 ]
 
 ##convert string to cookiejar
@@ -49,7 +49,7 @@ for c in cookies:
      cj.set_cookie(cookie)
 
 for group in groups_to_scrape:
-    for post in get_posts(group['id'], pages=init_pages,options={"comments": True}, cookies=cj):
+    for post in get_posts(group['id'], pages=init_pages,options={"comments": True},cookies=cj):
         print("Scrapping Group for {} with Post id {}".format(group['candidate'], post['post_id']))
         database.insert_post(
                 post_id=post['post_id'],
@@ -74,5 +74,5 @@ for group in groups_to_scrape:
             )
         
         #avoid to many request
-        wait_time = randrange(60)
+        wait_time = randrange(30)
         time.sleep(wait_time)
