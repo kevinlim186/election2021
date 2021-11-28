@@ -98,3 +98,41 @@ class Database():
         '''
 
         return pd.read_sql_query(sql=sql, con=self.conn)
+    
+    def get_all_user_with_post(self, limit):
+        sql = '''
+           	Select user_id
+           	from 
+           		(select  user_id
+            	from posts
+                where user_id not in (select user_id from user)
+            	union 
+            	select  user_id
+            	from comments
+                where user_id not in (select user_id from user))t
+            group by user_id
+            limit {}
+        '''.format(limit)
+
+        return pd.read_sql_query(sql=sql, con=self.conn)
+
+
+    def insert_user(self, user_id, name, friend_count, follower_count,following_count, work, places_lived, life_events, contact_inf, education, basic_info, relationship, family_member, about ):
+        sql = '''
+            insert into user (user_id, name, friend_count, follower_count,following_count, work, places_lived, life_events, contact_inf, education, basic_info, relationship, family_member, about )
+            values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+            '''
+    
+        self.cHandler.execute(sql, ( user_id, name, friend_count, follower_count,following_count, work, places_lived, life_events, contact_inf, education, basic_info, relationship, family_member, about ))
+        
+        print('Inserted User {}'.format(user_id))
+    
+    def insert_connection(self, user_id1,user_id2):
+        sql = '''
+            insert into user_connection (user_id, friend_id)
+            values (%s,%s)
+            '''
+    
+        self.cHandler.execute(sql, ( user_id1,user_id2))
+        
+        print('Connection of {} and {}'.format(user_id1, user_id2))

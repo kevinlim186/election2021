@@ -1,14 +1,16 @@
-from facebook_scraper import get_posts
+from facebook_scraper import get_posts,get_profile
 from src.database import Database
 from src.config import config,cookies
 import http.cookiejar
 import json
 import time
 from random import randrange
+import sys
 
 
 database = Database()
-init_pages= 20
+init_pages= 10
+limit_user_scrape =1000
 
 groups_to_scrape =[
 #    {"id": 'BongbongMarcos', "candidate": "Marcos-Duterte"},
@@ -31,6 +33,14 @@ groups_to_scrape =[
     {"id": 'manilabulletin', "candidate": "manila-bullletin"},
     {"id": 'rappler', "candidate": "rapplerdotcom"},
 ]
+
+def wait(time_remaining, message="Waiting to avoid scrapping guards"):
+    for remaining in range(time_remaining, -1, -1):
+        sys.stdout.write("\r")
+        sys.stdout.write("{:s} :{:2d} secs".format(message, remaining))
+        sys.stdout.flush()
+        time.sleep(1)
+    print('\n')
 
 ##convert string to cookiejar
 cj = http.cookiejar.CookieJar()
@@ -76,7 +86,54 @@ for group in groups_to_scrape:
             
             #avoid to many request
             wait_time = randrange(30)
-            time.sleep(wait_time)
+            wait(wait_time)
     except Exception as e:
         print("Problem with group {}".format(group['id']))
         print(e)
+
+
+##user scrapping
+users=database.get_all_user_with_post(limit=limit_user_scrape)
+users=users.iloc[:limit_user_scrape]
+
+known_keys=['Friend_count', 'Follower_count', 'Following_count', 'id', 'Name','Work', 'Places Lived','Life Events','Contact Info','Education', 'Basic Info','Relationship', 'Family Members', 'About', 'Friends'] 
+
+for _,user in users.iterrows():
+    try:
+        profile = get_profile(str(user['user_id']), friends=10,cookies=cj)
+    except Exception as e:
+        wait(time_remaining=60, message="The account is blocked. Waiting for 1 minutes")
+        break
+
+    #to avoid missing key error
+    json_keys = list(profile.keys())
+    for key in known_keys:
+        if key not in json_keys:
+            profile[key]=None
+
+    database.insert_user(
+            user_id=int(profile['id']), 
+            name=profile['Name'], 
+            friend_count=profile['Friend_count'], 
+            follower_count=profile['Follower_count'],
+            following_count=profile['Following_count'], 
+            work=str(profile['Work']), 
+            places_lived=str(profile['Places Lived']), 
+            life_events=str(profile['Life Events']),
+            contact_inf=str(profile['Contact Info']),
+            education=str(profile['Education']),
+            basic_info=str(profile['Basic Info']),
+            relationship=str(profile['Relationship']),
+            family_member=str(profile['Family Members']),
+            about=str(profile['About']),
+        )
+
+    if profile['Friends'] is not None:
+        for friend in profile['Friends']:
+            database.insert_connection(int(profile['id']),  int(friend['id']))
+
+    #avoid to many request
+    wait_time = randrange(30)
+    wait(wait_time)
+
+
