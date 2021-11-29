@@ -97,9 +97,11 @@ users=database.get_all_user_with_post(limit=limit_user_scrape)
 users=users.sample(limit_user_scrape)
 
 known_keys=['Friend_count', 'Follower_count', 'Following_count', 'id', 'Name','Work', 'Places Lived','Life Events','Contact Info','Education', 'Basic Info','Relationship', 'Family Members', 'About', 'Friends'] 
+counter=0
 
 for _,user in users.iterrows():
     try:
+        counter=0
         profile = get_profile(str(user['user_id']), friends=10,cookies=cj)
         #to avoid missing key error
         json_keys = list(profile.keys())
@@ -132,8 +134,11 @@ for _,user in users.iterrows():
         wait_time = randrange(60)
         wait(wait_time)
     except Exception as e:
+        print(e)
+        counter+=1
         wait_time = randrange(120)
         wait(time_remaining=wait_time, message="The account is blocked. Waiting for 1 minutes")
-
+        if counter >5: ##to count number of times the user is blocked
+            break
 
 
