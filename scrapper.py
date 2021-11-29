@@ -101,39 +101,39 @@ known_keys=['Friend_count', 'Follower_count', 'Following_count', 'id', 'Name','W
 for _,user in users.iterrows():
     try:
         profile = get_profile(str(user['user_id']), friends=10,cookies=cj)
+        #to avoid missing key error
+        json_keys = list(profile.keys())
+        for key in known_keys:
+            if key not in json_keys:
+                profile[key]=None
+
+        database.insert_user(
+                user_id=int(profile['id']), 
+                name=profile['Name'], 
+                friend_count=profile['Friend_count'], 
+                follower_count=profile['Follower_count'],
+                following_count=profile['Following_count'], 
+                work=str(profile['Work']), 
+                places_lived=str(profile['Places Lived']), 
+                life_events=str(profile['Life Events']),
+                contact_inf=str(profile['Contact Info']),
+                education=str(profile['Education']),
+                basic_info=str(profile['Basic Info']),
+                relationship=str(profile['Relationship']),
+                family_member=str(profile['Family Members']),
+                about=str(profile['About']),
+            )
+
+        if profile['Friends'] is not None:
+            for friend in profile['Friends']:
+                database.insert_connection(int(profile['id']),  int(friend['id']))
+
+        #avoid to many request
+        wait_time = randrange(60)
+        wait(wait_time)
     except Exception as e:
-        wait(time_remaining=60, message="The account is blocked. Waiting for 1 minutes")
-        break
+        wait_time = randrange(120)
+        wait(time_remaining=wait_time, message="The account is blocked. Waiting for 1 minutes")
 
-    #to avoid missing key error
-    json_keys = list(profile.keys())
-    for key in known_keys:
-        if key not in json_keys:
-            profile[key]=None
-
-    database.insert_user(
-            user_id=int(profile['id']), 
-            name=profile['Name'], 
-            friend_count=profile['Friend_count'], 
-            follower_count=profile['Follower_count'],
-            following_count=profile['Following_count'], 
-            work=str(profile['Work']), 
-            places_lived=str(profile['Places Lived']), 
-            life_events=str(profile['Life Events']),
-            contact_inf=str(profile['Contact Info']),
-            education=str(profile['Education']),
-            basic_info=str(profile['Basic Info']),
-            relationship=str(profile['Relationship']),
-            family_member=str(profile['Family Members']),
-            about=str(profile['About']),
-        )
-
-    if profile['Friends'] is not None:
-        for friend in profile['Friends']:
-            database.insert_connection(int(profile['id']),  int(friend['id']))
-
-    #avoid to many request
-    wait_time = randrange(30)
-    wait(wait_time)
 
 
