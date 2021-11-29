@@ -9,7 +9,7 @@ import sys
 
 
 database = Database()
-init_pages= 10
+init_pages= 20
 limit_user_scrape =1000
 
 groups_to_scrape =[
@@ -94,7 +94,7 @@ for group in groups_to_scrape:
 
 ##user scrapping
 users=database.get_all_user_with_post(limit=limit_user_scrape)
-users=users.iloc[:limit_user_scrape]
+users=users.sample(limit_user_scrape)
 
 known_keys=['Friend_count', 'Follower_count', 'Following_count', 'id', 'Name','Work', 'Places Lived','Life Events','Contact Info','Education', 'Basic Info','Relationship', 'Family Members', 'About', 'Friends'] 
 
