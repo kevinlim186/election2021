@@ -35,7 +35,7 @@ news = " ".join(texts[texts['group_candidate'].isin(['phil-star','manila-bulllet
 wordcloud = WordCloud(width = 800, height = 800,
                 background_color ='white',
                 stopwords=STOP_WORDS_SOURCE,
-                min_font_size = 10).generate(isko)
+                min_font_size = 10).generate(leni)
  
 # plot the WordCloud image                      
 plt.figure(figsize = (8, 8), facecolor = None)
