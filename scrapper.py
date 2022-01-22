@@ -45,11 +45,11 @@ groups_to_scrape =[
 ]
 
 #cycle through the groups
-index_range = int(len(groups_to_scrape)/7)
-index_multiplier = datetime.datetime.today().weekday()+1
-start_range = index_range * index_multiplier
-end_range = min(start_range + index_range, len(groups_to_scrape))
-groups_to_scrape = groups_to_scrape[start_range:end_range]
+# index_range = int(len(groups_to_scrape)/7)
+# index_multiplier = datetime.datetime.today().weekday()+1
+# start_range = index_range * index_multiplier
+# end_range = min(start_range + index_range, len(groups_to_scrape))
+# groups_to_scrape = groups_to_scrape[start_range:end_range]
 
 def wait(time_remaining, message="Waiting to avoid scrapping guards"):
     for remaining in range(time_remaining, -1, -1):
@@ -75,7 +75,11 @@ for c in cookies:
 
      cj.set_cookie(cookie)
 
+candidate=''
 for group in groups_to_scrape:
+    if candidate !=group['candidate']:
+        print('New canditate. 1 hour waiting.')
+        wait(60*60)
     try:
         for post in get_posts(group['id'], pages=init_pages,options={"comments": True},cookies=cj):
             print("Scrapping Group for {} with Post id {}".format(group['candidate'], post['post_id']))
@@ -110,52 +114,52 @@ for group in groups_to_scrape:
 
 
 ##user scrapping
-users=database.get_all_user_with_post(limit=limit_user_scrape)
-users=users.sample(limit_user_scrape)
+# users=database.get_all_user_with_post(limit=limit_user_scrape)
+# users=users.sample(limit_user_scrape)
 
-known_keys=['Friend_count', 'Follower_count', 'Following_count', 'id', 'Name','Work', 'Places Lived','Life Events','Contact Info','Education', 'Basic Info','Relationship', 'Family Members', 'About', 'Friends'] 
-counter=0
+# known_keys=['Friend_count', 'Follower_count', 'Following_count', 'id', 'Name','Work', 'Places Lived','Life Events','Contact Info','Education', 'Basic Info','Relationship', 'Family Members', 'About', 'Friends'] 
+# counter=0
 
-for _,user in users.iterrows():
-    try:
-        counter=0
-        profile = get_profile(str(user['user_id']), friends=10,cookies=cj)
-        #to avoid missing key error
-        json_keys = list(profile.keys())
-        for key in known_keys:
-            if key not in json_keys:
-                profile[key]=None
+# for _,user in users.iterrows():
+#     try:
+#         counter=0
+#         profile = get_profile(str(user['user_id']), friends=10,cookies=cj)
+#         #to avoid missing key error
+#         json_keys = list(profile.keys())
+#         for key in known_keys:
+#             if key not in json_keys:
+#                 profile[key]=None
 
-        database.insert_user(
-                user_id=int(profile['id']), 
-                name=profile['Name'], 
-                friend_count=profile['Friend_count'], 
-                follower_count=profile['Follower_count'],
-                following_count=profile['Following_count'], 
-                work=str(profile['Work']), 
-                places_lived=str(profile['Places Lived']), 
-                life_events=str(profile['Life Events']),
-                contact_inf=str(profile['Contact Info']),
-                education=str(profile['Education']),
-                basic_info=str(profile['Basic Info']),
-                relationship=str(profile['Relationship']),
-                family_member=str(profile['Family Members']),
-                about=str(profile['About']),
-            )
+#         database.insert_user(
+#                 user_id=int(profile['id']), 
+#                 name=profile['Name'], 
+#                 friend_count=profile['Friend_count'], 
+#                 follower_count=profile['Follower_count'],
+#                 following_count=profile['Following_count'], 
+#                 work=str(profile['Work']), 
+#                 places_lived=str(profile['Places Lived']), 
+#                 life_events=str(profile['Life Events']),
+#                 contact_inf=str(profile['Contact Info']),
+#                 education=str(profile['Education']),
+#                 basic_info=str(profile['Basic Info']),
+#                 relationship=str(profile['Relationship']),
+#                 family_member=str(profile['Family Members']),
+#                 about=str(profile['About']),
+#             )
 
-        if profile['Friends'] is not None:
-            for friend in profile['Friends']:
-                database.insert_connection(int(profile['id']),  int(friend['id']))
+#         if profile['Friends'] is not None:
+#             for friend in profile['Friends']:
+#                 database.insert_connection(int(profile['id']),  int(friend['id']))
 
-        #avoid to many request
-        wait_time = randrange(60)
-        wait(wait_time)
-    except Exception as e:
-        print(e)
-        counter+=1
-        wait_time = randrange(120)
-        wait(time_remaining=wait_time, message="The account is blocked. Waiting for 1 minutes")
-        if counter >5: ##to count number of times the user is blocked
-            break
+#         #avoid to many request
+#         wait_time = randrange(60)
+#         wait(wait_time)
+#     except Exception as e:
+#         print(e)
+#         counter+=1
+#         wait_time = randrange(120)
+#         wait(time_remaining=wait_time, message="The account is blocked. Waiting for 1 minutes")
+#         if counter >5: ##to count number of times the user is blocked
+#             break
 
 
