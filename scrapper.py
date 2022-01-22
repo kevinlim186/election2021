@@ -28,7 +28,17 @@ groups_to_scrape =[
     {"id": 'groups/1683989658430119', "candidate": "Isko-Ong"},
     {"id": 'groups/997990110658082', "candidate": "Isko-Ong"},
     {"id": 'groups/174319694228563', "candidate": "Isko-Ong"},
-    
+
+    {"id": 'PingLacsonOfficial', "candidate": "Lacson-Sotto"},
+    {"id": 'groups/190638622594926', "candidate": "Lacson-Sotto"},
+    {"id": 'groups/270131633191090', "candidate": "Lacson-Sotto"},
+    {"id": 'groups/1614639185418385', "candidate": "Lacson-Sotto"},
+
+    {"id": 'MannyPacquiao', "candidate": "Pacquiao-Atienza"},
+    {"id": 'groups/553549955633620', "candidate": "Pacquiao-Atienza"},
+    {"id": 'groups/531471551246993', "candidate": "Pacquiao-Atienza"},
+    {"id": 'groups/297928491680206', "candidate": "Pacquiao-Atienza"},
+
     {"id": 'philstarnews', "candidate": "phil-star"},
     {"id": 'manilabulletin', "candidate": "manila-bullletin"},
     {"id": 'rappler', "candidate": "rapplerdotcom"},
