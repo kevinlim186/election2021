@@ -76,44 +76,45 @@ for c in cookies:
      cj.set_cookie(cookie)
 
 candidate=''
-for group in groups_to_scrape:
-    if candidate !=group['candidate'] and candidate!='':
-        print('New canditate. 1 hour waiting.')
-        wait(60*60)
-    candidate=group['candidate']
+while True:
+    for group in groups_to_scrape:
+        if candidate !=group['candidate'] and candidate!='':
+            print('New canditate. 1 hour waiting.')
+            wait(60*60)
+        candidate=group['candidate']
 
-    try:
-        for post in get_posts(group['id'], pages=init_pages,options={"comments": True},cookies=cj):
-            print("Scrapping Group for {} with Post id {}".format(group['candidate'], post['post_id']))
-            database.insert_post(
-                    post_id=post['post_id'],
-                    _text=post['text'],
-                    time_stamp=post['time'],
-                    likes=post['likes'],
-                    comments=post['comments'],
-                    shares=post['shares'],
-                    user_id=post['user_id'],
-                    username=post['username'],
-                    group_id=group['id'],
-                    group_candidate=group['candidate'])
-            
-            for comment in post['comments_full']:
-                database.insert_comment(
-                    post_id=post['post_id'],
-                    comment_id=comment['comment_id'],
-                    _text=comment['comment_text'],
-                    time_stamp=comment['comment_time'],
-                    user_id=comment['commenter_id'],
-                    username=comment['commenter_name']
-                )
-            
-            #avoid to many request
-            wait_time = randrange(30)
-            wait(wait_time)
-    except Exception as e:
-        print("Problem with group {}".format(group['id']))
-        wait(time_remaining=60*15, message="The account is blocked. Waiting for 15 minutes")
-        print(e)
+        try:
+            for post in get_posts(group['id'], pages=init_pages,options={"comments": True},cookies=cj):
+                print("Scrapping Group for {} with Post id {}".format(group['candidate'], post['post_id']))
+                database.insert_post(
+                        post_id=post['post_id'],
+                        _text=post['text'],
+                        time_stamp=post['time'],
+                        likes=post['likes'],
+                        comments=post['comments'],
+                        shares=post['shares'],
+                        user_id=post['user_id'],
+                        username=post['username'],
+                        group_id=group['id'],
+                        group_candidate=group['candidate'])
+                
+                for comment in post['comments_full']:
+                    database.insert_comment(
+                        post_id=post['post_id'],
+                        comment_id=comment['comment_id'],
+                        _text=comment['comment_text'],
+                        time_stamp=comment['comment_time'],
+                        user_id=comment['commenter_id'],
+                        username=comment['commenter_name']
+                    )
+                
+                #avoid to many request
+                wait_time = randrange(30)
+                wait(wait_time)
+        except Exception as e:
+            print("Problem with group {}".format(group['id']))
+            wait(time_remaining=60*15, message="The account is blocked. Waiting for 15 minutes")
+            print(e)
 
 
 ##user scrapping
