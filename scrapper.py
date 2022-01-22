@@ -77,9 +77,11 @@ for c in cookies:
 
 candidate=''
 for group in groups_to_scrape:
-    if candidate !=group['candidate']:
+    if candidate !=group['candidate'] and candidate!='':
         print('New canditate. 1 hour waiting.')
         wait(60*60)
+    candidate=group['candidate']
+
     try:
         for post in get_posts(group['id'], pages=init_pages,options={"comments": True},cookies=cj):
             print("Scrapping Group for {} with Post id {}".format(group['candidate'], post['post_id']))
@@ -110,6 +112,7 @@ for group in groups_to_scrape:
             wait(wait_time)
     except Exception as e:
         print("Problem with group {}".format(group['id']))
+        wait(time_remaining=60*15, message="The account is blocked. Waiting for 15 minutes")
         print(e)
 
 
