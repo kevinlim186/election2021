@@ -6,7 +6,7 @@ import json
 import time
 from random import randrange
 import sys
-
+import datetime
 
 database = Database()
 init_pages= 20
@@ -43,6 +43,13 @@ groups_to_scrape =[
     {"id": 'manilabulletin', "candidate": "manila-bullletin"},
     {"id": 'rappler', "candidate": "rapplerdotcom"},
 ]
+
+#cycle through the groups
+index_range = int(len(groups_to_scrape)/7)
+index_multiplier = datetime.datetime.today().weekday()+1
+start_range = index_range * index_multiplier
+end_range = min(start_range + index_range, len(groups_to_scrape))
+groups_to_scrape = groups_to_scrape[start_range:end_range]
 
 def wait(time_remaining, message="Waiting to avoid scrapping guards"):
     for remaining in range(time_remaining, -1, -1):
