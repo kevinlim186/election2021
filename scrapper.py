@@ -13,35 +13,55 @@ init_pages= 20
 limit_user_scrape =1000
 
 groups_to_scrape =[
-#    {"id": 'BongbongMarcos', "candidate": "Marcos-Duterte"},
-    {"id": 'groups/marcosdutertefor2022', "candidate": "Marcos-Duterte"},
-    {"id": 'groups/777125892895858', "candidate": "Marcos-Duterte"},
-    {"id": 'groups/976328462455714', "candidate": "Marcos-Duterte"},
-    {"id": 'BanatBy', "candidate": "Marcos-Duterte"},
-    
-    {"id": 'VPLeniRobredoPH', "candidate": "Leni-Kiko"},
-    {"id": 'groups/NOBS2016/', "candidate": "Leni-Kiko"},
-    {"id": 'groups/945591229575374', "candidate": "Leni-Kiko"},
-    {"id": 'groups/2556648484480195', "candidate": "Leni-Kiko"},
-
-    {"id": 'iskomorenodomagoso', "candidate": "Isko-Ong"},
-    {"id": 'groups/1683989658430119', "candidate": "Isko-Ong"},
-    {"id": 'groups/997990110658082', "candidate": "Isko-Ong"},
-    {"id": 'groups/174319694228563', "candidate": "Isko-Ong"},
-
     {"id": 'PingLacsonOfficial', "candidate": "Lacson-Sotto"},
     {"id": 'groups/190638622594926', "candidate": "Lacson-Sotto"},
     {"id": 'groups/270131633191090', "candidate": "Lacson-Sotto"},
     {"id": 'groups/1614639185418385', "candidate": "Lacson-Sotto"},
+    {"id": 'groups/pinglacsontitosotto', "candidate": "Lacson-Sotto"},
+    {"id": 'groups/teamlacsonsotto', "candidate": "Lacson-Sotto"},
+    {"id": 'pinglacsonkami', "candidate": "Lacson-Sotto"},
+
 
     {"id": 'MannyPacquiao', "candidate": "Pacquiao-Atienza"},
     {"id": 'groups/553549955633620', "candidate": "Pacquiao-Atienza"},
     {"id": 'groups/531471551246993', "candidate": "Pacquiao-Atienza"},
     {"id": 'groups/297928491680206', "candidate": "Pacquiao-Atienza"},
+    {"id": 'groups/787502051653675', "candidate": "Pacquiao-Atienza"},
+    {"id": 'groups/3366074970143394', "candidate": "Pacquiao-Atienza"},
+    {"id": 'groups/officialmannypacquiaosupporters', "candidate": "Pacquiao-Atienza"},
+
+
+#    {"id": 'BongbongMarcos', "candidate": "Marcos-Duterte"},
+    {"id": 'groups/marcosdutertefor2022', "candidate": "Marcos-Duterte"},
+    {"id": 'groups/777125892895858', "candidate": "Marcos-Duterte"},
+    {"id": 'groups/976328462455714', "candidate": "Marcos-Duterte"},
+    {"id": 'groups/463316131033015', "candidate": "Marcos-Duterte"},
+    {"id": 'groups/321991487837550', "candidate": "Marcos-Duterte"},
+    {"id": 'groups/204653531230918', "candidate": "Marcos-Duterte"},
+    {"id": 'groups/BongbongMarcosForPresident2022', "candidate": "Marcos-Duterte"},
+    
+    
+    {"id": 'VPLeniRobredoPH', "candidate": "Leni-Kiko"},
+    {"id": 'groups/NOBS2016', "candidate": "Leni-Kiko"},
+    {"id": 'groups/945591229575374', "candidate": "Leni-Kiko"},
+    {"id": 'groups/2556648484480195', "candidate": "Leni-Kiko"},
+    {"id": 'groups/645842846785614', "candidate": "Leni-Kiko"},
+    {"id": 'groups/volunteers4leni', "candidate": "Leni-Kiko"},
+    {"id": 'groups/914988072441400', "candidate": "Leni-Kiko"},
+
+
+    {"id": 'iskomorenodomagoso', "candidate": "Isko-Ong"},
+    {"id": 'groups/1683989658430119', "candidate": "Isko-Ong"},
+    {"id": 'groups/997990110658082', "candidate": "Isko-Ong"},
+    {"id": 'groups/174319694228563', "candidate": "Isko-Ong"},
+    {"id": 'groups/276698607599097', "candidate": "Isko-Ong"},
+    {"id": 'groups/628695250606685', "candidate": "Isko-Ong"},
+    {"id": 'groups/iskonatics', "candidate": "Isko-Ong"},
 
     {"id": 'philstarnews', "candidate": "phil-star"},
     {"id": 'manilabulletin', "candidate": "manila-bullletin"},
     {"id": 'rappler', "candidate": "rapplerdotcom"},
+    {"id": 'BanatBy', "candidate": "BanatBy"},
 ]
 
 #cycle through the groups
@@ -78,10 +98,11 @@ for c in cookies:
 candidate=''
 while True:
     for group in groups_to_scrape:
-        if candidate !=group['candidate'] and candidate!='':
-            print('New canditate. 1 hour waiting.')
-            wait(60*60)
-        candidate=group['candidate']
+        if candidate !=group['id'] and candidate!='':
+            print('New canditate. Wait upto 1 hour.')
+            wait_time = randrange(60)
+            wait(60*wait_time)
+        candidate=group['id']
 
         try:
             for post in get_posts(group['id'], pages=init_pages,options={"comments": True},cookies=cj):
