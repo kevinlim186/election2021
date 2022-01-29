@@ -287,5 +287,11 @@ nlang
 or
 which
 yon
+bbm
+leni
+isko
+yorme
+marcos
+bbmsaratandem2022
 """.split()
 )

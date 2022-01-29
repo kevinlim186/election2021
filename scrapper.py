@@ -13,6 +13,14 @@ init_pages= 20
 limit_user_scrape =1000
 
 groups_to_scrape =[
+    {"id": 'groups/297928491680206', "candidate": "Pacquiao-Atienza"},
+    {"id": 'groups/787502051653675', "candidate": "Pacquiao-Atienza"},
+    {"id": 'groups/3366074970143394', "candidate": "Pacquiao-Atienza"},
+    {"id": 'groups/officialmannypacquiaosupporters', "candidate": "Pacquiao-Atienza"},
+    {"id": 'MannyPacquiao', "candidate": "Pacquiao-Atienza"},
+    {"id": 'groups/553549955633620', "candidate": "Pacquiao-Atienza"},
+    {"id": 'groups/531471551246993', "candidate": "Pacquiao-Atienza"},
+
     {"id": 'PingLacsonOfficial', "candidate": "Lacson-Sotto"},
     {"id": 'groups/190638622594926', "candidate": "Lacson-Sotto"},
     {"id": 'groups/270131633191090', "candidate": "Lacson-Sotto"},
@@ -20,15 +28,6 @@ groups_to_scrape =[
     {"id": 'groups/pinglacsontitosotto', "candidate": "Lacson-Sotto"},
     {"id": 'groups/teamlacsonsotto', "candidate": "Lacson-Sotto"},
     {"id": 'pinglacsonkami', "candidate": "Lacson-Sotto"},
-
-
-    {"id": 'MannyPacquiao', "candidate": "Pacquiao-Atienza"},
-    {"id": 'groups/553549955633620', "candidate": "Pacquiao-Atienza"},
-    {"id": 'groups/531471551246993', "candidate": "Pacquiao-Atienza"},
-    {"id": 'groups/297928491680206', "candidate": "Pacquiao-Atienza"},
-    {"id": 'groups/787502051653675', "candidate": "Pacquiao-Atienza"},
-    {"id": 'groups/3366074970143394', "candidate": "Pacquiao-Atienza"},
-    {"id": 'groups/officialmannypacquiaosupporters', "candidate": "Pacquiao-Atienza"},
 
 
 #    {"id": 'BongbongMarcos', "candidate": "Marcos-Duterte"},
@@ -136,6 +135,9 @@ while True:
             print("Problem with group {}".format(group['id']))
             wait(time_remaining=60*15, message="The account is blocked. Waiting for 15 minutes")
             print(e)
+
+    print('Finished looping. Scrapping will resume in 15 hours')
+    wait(60*60*15)
 
 
 ##user scrapping

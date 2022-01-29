@@ -1,8 +1,11 @@
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import pandas as pd
+import os
+
 from src.database import Database
 from src.utility import STOP_WORDS as STOP_WORDS_SOURCE
+from keybert import KeyBERT
 
 
 database = Database()
@@ -31,6 +34,12 @@ bbm= " ".join(texts[texts['group_candidate']=='Marcos-Duterte']['_text'].values)
 leni= " ".join(texts[texts['group_candidate']=='Leni-Kiko']['_text'].values)
 isko= " ".join(texts[texts['group_candidate']=='Isko-Ong']['_text'].values)
 news = " ".join(texts[texts['group_candidate'].isin(['phil-star','manila-bullletin'])]['_text'].values)
+
+
+kw_model = KeyBERT()
+bbm_keywords = kw_model.extract_keywords(bbm[7297950:], keyphrase_ngram_range=(1, 1), use_mmr=True, diversity=0.7)
+leni_keywords = kw_model.extract_keywords(leni, keyphrase_ngram_range=(1, 1), use_mmr=True, diversity=0.7)
+isko_keywords = kw_model.extract_keywords(isko, keyphrase_ngram_range=(1, 1), use_mmr=True, diversity=0.7)
 
 wordcloud = WordCloud(width = 800, height = 800,
                 background_color ='white',
