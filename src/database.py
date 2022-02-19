@@ -76,15 +76,23 @@ class Database():
         
         self.post_ids = pd.read_sql_query(sql=sql, con=self.conn)
 
-    def get_texts(self):
-        sql = '''
-            select comments._text, group_candidate
+    def get_texts(self, start_date):
+        sql = f'''
+            select 
+                comments._text, 
+                group_candidate
             from comments
             inner join posts on comments.post_id = posts.post_id
+            where 
+                comments.time_stamp >= {start_date}
             group by comments._text, group_candidate
             union 
-            select  _text, group_candidate
+            select  
+                _text, 
+                group_candidate
             from posts
+            where
+                time_stamp >= {start_date}
             group by  _text, group_candidate
         '''
 

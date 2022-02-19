@@ -10,7 +10,7 @@ from keybert import KeyBERT
 
 database = Database()
 
-texts=database.get_texts()
+texts=database.get_texts(start_date='2022-02-01')
 
 # texts=database.get_posts()
 

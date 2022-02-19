@@ -103,7 +103,7 @@ for group in groups_to_scrape:
     candidate=group['id']
 
     try:
-        for post in get_posts(group['id'], pages=init_pages,options={"comments": True},cookies=cj):
+        for post in get_posts(group['id'], pages=init_pages,options={"comments": True}):
             print("Scrapping Group for {} with Post id {}".format(group['candidate'], post['post_id']))
             database.insert_post(
                     post_id=post['post_id'],
