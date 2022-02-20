@@ -10,7 +10,7 @@ from keybert import KeyBERT
 
 database = Database()
 
-texts=database.get_texts(start_date='2022-02-01')
+texts=database.get_texts(start_date='2022-02-20')
 
 # texts=database.get_posts()
 
@@ -37,7 +37,7 @@ news = " ".join(texts[texts['group_candidate'].isin(['phil-star','manila-bulllet
 
 
 kw_model = KeyBERT()
-bbm_keywords = kw_model.extract_keywords(bbm[7297950:], keyphrase_ngram_range=(1, 1), use_mmr=True, diversity=0.7)
+bbm_keywords2 = kw_model.extract_keywords(bbm[5594457:], keyphrase_ngram_range=(1, 1), use_mmr=False)
 leni_keywords = kw_model.extract_keywords(leni, keyphrase_ngram_range=(1, 1), use_mmr=True, diversity=0.7)
 isko_keywords = kw_model.extract_keywords(isko, keyphrase_ngram_range=(1, 1), use_mmr=True, diversity=0.7)
 

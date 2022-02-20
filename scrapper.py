@@ -57,6 +57,8 @@ groups_to_scrape =[
     {"id": 'groups/628695250606685', "candidate": "Isko-Ong"},
     {"id": 'groups/iskonatics', "candidate": "Isko-Ong"},
 
+    {"id": 'groups/KaLeodyDeGuzman', "candidate": "deguzman-bello"},
+
     {"id": 'philstarnews', "candidate": "phil-star"},
     {"id": 'manilabulletin', "candidate": "manila-bullletin"},
     {"id": 'rappler', "candidate": "rapplerdotcom"},
