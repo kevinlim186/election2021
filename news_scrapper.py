@@ -5,7 +5,7 @@ import datetime
 database = Database()
 
 print(f'The news scrapper ran {datetime.datetime.now()}')
-googlenews = GoogleNews(lang='en-PH', region='PH', period='20d')
+googlenews = GoogleNews(lang='en-PH', region='PH', period='3d')
 
 candidates =[
     {"candidate": "Marcos-Duterte", "keyword":"marcos"},
