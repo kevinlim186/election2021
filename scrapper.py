@@ -8,13 +8,15 @@ from random import randrange
 import sys
 import datetime
 from GoogleNews import GoogleNews
+import requests
+
 
 database = Database()
 init_pages= 20
 limit_user_scrape =1000
 
 #######google news articles
-googlenews = GoogleNews(lang='en-PH', region='PH', period='3d')
+googlenews = GoogleNews(lang='en-PH', region='PH', period='5d')
 
 candidates =[
     {"candidate": "Marcos-Duterte", "keyword":"marcos"},

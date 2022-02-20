@@ -147,12 +147,12 @@ class Database():
 
     def insert_news(self,title, date, link, image, site, candidate):
         sql = '''
-            insert into news (title, date, link, image, site, candidate)
-            values (%s,%s,%s,%s,%s,%s)
+            insert into news (title, title_index, date, link, image, site, candidate)
+            values (%s, sha1(%s),  %s,%s,%s,%s,%s)
             ON DUPLICATE KEY 
                 UPDATE 
                 link=%s, 
                 image=%s, 
                 site=%s
             '''
-        self.cHandler.execute(sql, ( title, date, link, image, site, candidate,link, image, site ))
+        self.cHandler.execute(sql, ( title,title, date, link, image, site, candidate,link, image, site ))
