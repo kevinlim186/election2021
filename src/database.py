@@ -144,3 +144,15 @@ class Database():
         self.cHandler.execute(sql, ( user_id1,user_id2))
         
         print('Connection of {} and {}'.format(user_id1, user_id2))
+
+    def insert_news(self,title, date, link, image, site, candidate):
+        sql = '''
+            insert into news (title, date, link, image, site, candidate)
+            values (%s,%s,%s,%s,%s,%s)
+            ON DUPLICATE KEY 
+                UPDATE 
+                link=%s, 
+                image=%s, 
+                site=%s
+            '''
+        self.cHandler.execute(sql, ( title, date, link, image, site, candidate,link, image, site ))
